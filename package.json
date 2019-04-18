@@ -1,27 +1,45 @@
 {
-  "name": "iamhrayr-server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "tsc": "tsc",
-    "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
-    "prod": "tsc && node ./build/index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "typescript": "^3.4.3"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^1.6.0",
-    "@typescript-eslint/parser": "^1.6.0",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-prettier": "^3.0.1",
-    "prettier": "^1.17.0",
-    "ts-node-dev": "^1.0.0-pre.32"
-  }
+    "name": "iamhrayr-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "tsc": "tsc",
+        "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
+        "prod": "tsc && node ./build/index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@types/graphql": "^14.2.0",
+        "@types/lodash": "^4.14.123",
+        "@types/mongoose": "^5.3.26",
+        "@types/shortid": "0.0.29",
+        "apollo-server": "^2.4.8",
+        "apollo-server-express": "^2.4.8",
+        "cloudinary": "^1.14.0",
+        "dotenv": "^7.0.0",
+        "graphql": "^14.2.1",
+        "graphql-upload": "^8.0.5",
+        "lodash": "^4.17.11",
+        "mkdirp": "^0.5.1",
+        "module-alias": "^2.2.0",
+        "mongoose": "^5.5.2",
+        "shortid": "^2.2.14",
+        "typescript": "^3.4.3"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^1.6.0",
+        "@typescript-eslint/parser": "^1.6.0",
+        "eslint": "^5.16.0",
+        "eslint-config-airbnb-base": "^13.1.0",
+        "eslint-config-prettier": "^4.1.0",
+        "eslint-import-resolver-typescript": "^1.1.1",
+        "eslint-plugin-import": "^2.17.2",
+        "eslint-plugin-prettier": "^3.0.1",
+        "prettier": "^1.17.0",
+        "ts-node-dev": "^1.0.0-pre.32",
+        "typescript-eslint-parser": "^22.0.0"
+    }
 }
