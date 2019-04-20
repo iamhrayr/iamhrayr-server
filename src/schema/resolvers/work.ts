@@ -34,6 +34,7 @@ export default {
         //     // console.log('thumbnailUrl', thumbnailUrl);
         //     return url;
         // },
+
         // uploadFiles: async (parent, { files }, { models }) => {
         //     const results = await processBulkUpload(files, 'iamhrayr-portfolio/thumbnails/', [
         //         { width: 400, height: 400, crop: 'fill' },

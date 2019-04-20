@@ -23,6 +23,7 @@ module.exports = {
     },
     rules: {
         'import/first': 'off',
+        'import/prefer-default-export': 'off',
         // "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
