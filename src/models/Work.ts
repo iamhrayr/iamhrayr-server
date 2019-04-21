@@ -10,17 +10,20 @@ export interface IWork extends Document {
     images: string[];
 }
 
-const WorkSchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    thumbnail: String,
-    tags: [String],
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
+const WorkSchema = new mongoose.Schema(
+    {
+        title: String,
+        description: String,
+        thumbnail: String,
+        tags: [String],
+        category: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Category',
+        },
+        images: [String],
     },
-    images: [String],
-});
+    { timestamps: true },
+);
 
 const Work = mongoose.model<IWork>('Work', WorkSchema);
 

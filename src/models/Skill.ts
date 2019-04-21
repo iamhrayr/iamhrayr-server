@@ -7,11 +7,14 @@ export interface ISkill extends Document {
     percent: number;
 }
 
-const SkillSchema = new mongoose.Schema({
-    name: { type: String, required: true, unique: true },
-    color: { type: String, required: true },
-    percent: { type: Number, required: true },
-});
+const SkillSchema = new mongoose.Schema(
+    {
+        name: { type: String, required: true, unique: true },
+        color: { type: String, required: true },
+        percent: { type: Number, required: true },
+    },
+    { timestamps: true },
+);
 
 const Skill = mongoose.model<ISkill>('Skill', SkillSchema);
 

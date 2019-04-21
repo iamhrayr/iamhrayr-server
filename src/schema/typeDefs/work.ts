@@ -9,6 +9,8 @@ const typeDefs = gql`
         tags: [String!]!
         category: Category!
         images: [String]!
+        createdAt: Date!
+        updatedAt: Date!
     }
 
     extend type Query {

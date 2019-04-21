@@ -6,6 +6,8 @@ const typeDefs = gql`
         name: String!
         percent: Int!
         color: String!
+        createdAt: Date!
+        updatedAt: Date!
     }
 
     extend type Query {
@@ -14,6 +16,8 @@ const typeDefs = gql`
 
     extend type Mutation {
         addSkill(name: String!, percent: Int!, color: String!): Skill!
+        editSkill(id: ID!, name: String, percent: Int, color: String): Skill!
+        deleteSkill(id: ID!): Skill!
     }
 `;
 

@@ -1,7 +1,9 @@
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 
-const Query = `
+const RootType = `
+    scalar Date
+
     type Query {
         _empty: String
     }
@@ -12,6 +14,6 @@ const Query = `
 `;
 
 export default {
-    typeDefs: [Query, ...typeDefs],
+    typeDefs: [RootType, ...typeDefs],
     resolvers,
 };

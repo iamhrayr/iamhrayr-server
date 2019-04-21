@@ -1,3 +1,5 @@
+import { ApolloError } from 'apollo-server';
+
 export default {
     Query: {
         skills: (parent: any, args: any, { models }: any) => {
@@ -11,6 +13,20 @@ export default {
                 percent: args.percent,
                 color: args.color,
             }).save();
+        },
+        editSkill: async (parent: any, { id, ...restArgs }: any, { models }: any) => {
+            const skill = await models.Skill.findById(id);
+            if (!skill) {
+                throw new ApolloError('Skill with the provided id does not exist');
+            }
+            return models.SKill.findOneAndUpdate({ _id: id }, { ...restArgs }, { new: true });
+        },
+        deleteSkill: async (parent: any, { id }: any, { models }: any) => {
+            const skill = await models.Skill.findById(id);
+            if (!skill) {
+                throw new ApolloError('Skill with the provided id does not exist');
+            }
+            return models.SKill.findOneAndDelete({ _id: id });
         },
     },
 };
