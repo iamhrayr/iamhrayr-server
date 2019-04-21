@@ -1,6 +1,7 @@
 // import fs from 'fs';
 import Work from './Work';
 import Category from './Category';
+import Skill from './Skill';
 
 // const models = {};
 // // Load `*.ts` under current directory as properties
@@ -16,4 +17,5 @@ import Category from './Category';
 export default {
     Work,
     Category,
+    Skill,
 };

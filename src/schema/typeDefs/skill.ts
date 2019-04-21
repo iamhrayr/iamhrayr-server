@@ -1,18 +1,19 @@
 import { gql } from 'apollo-server';
 
 const typeDefs = gql`
-    type Category {
+    type Skill {
         id: ID!
         name: String!
+        percent: Int!
+        color: String!
     }
 
     extend type Query {
-        categories: [Category!]!
+        skills: [Skill!]!
     }
 
     extend type Mutation {
-        addCategory(name: String!): Category!
-        editCategory(id: ID!, name: String!): Category!
+        addSkill(name: String!, percent: Int!, color: String!): Skill!
     }
 `;
 
