@@ -26,6 +26,9 @@ export default {
                 images: imagesUrls,
             }).save();
         },
+        setWorkVisibility: async (parent: any, { id, published }: any, { models }: any) => {
+            return models.Work.findOneAndUpdate({ _id: id }, { published }, { new: true });
+        },
 
         // uploadFile: async (parent, { file }, { models }) => {
         //     // console.log('file', file);

@@ -6,6 +6,7 @@ export interface IWork extends Document {
     description: string;
     thumbnail: string;
     tags: string[];
+    published: boolean,
     category: ICategory;
     images: string[];
 }
@@ -16,6 +17,7 @@ const WorkSchema = new mongoose.Schema(
         description: String,
         thumbnail: String,
         tags: [String],
+        published: Boolean,
         category: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Category',

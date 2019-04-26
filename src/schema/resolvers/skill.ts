@@ -19,14 +19,14 @@ export default {
             if (!skill) {
                 throw new ApolloError('Skill with the provided id does not exist');
             }
-            return models.SKill.findOneAndUpdate({ _id: id }, { ...restArgs }, { new: true });
+            return models.Skill.findOneAndUpdate({ _id: id }, { ...restArgs }, { new: true });
         },
         deleteSkill: async (parent: any, { id }: any, { models }: any) => {
             const skill = await models.Skill.findById(id);
             if (!skill) {
                 throw new ApolloError('Skill with the provided id does not exist');
             }
-            return models.SKill.findOneAndDelete({ _id: id });
+            return models.Skill.findOneAndDelete({ _id: id });
         },
     },
 };

@@ -9,6 +9,7 @@ const typeDefs = gql`
         tags: [String!]!
         category: Category!
         images: [String]!
+        published: Boolean!
         createdAt: Date!
         updatedAt: Date!
     }
@@ -26,6 +27,8 @@ const typeDefs = gql`
             tags: [String!]!
             category: String! # images: [String]!
         ): Work
+        setWorkVisibility(id: ID!, published: Boolean!): Work
+        # unpublishWork(id: ID!): Work
 
         uploadFile(file: Upload): String
         uploadFiles(files: [Upload]): [String]
