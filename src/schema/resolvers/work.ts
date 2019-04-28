@@ -12,17 +12,17 @@ export default {
         },
     },
     Mutation: {
-        addWork: async (parent: any, { thumbnail, images, ...rest }: any, { models }: any) => {
-            const { url } = await processSingleUpload(thumbnail, 'iamhrayr-portfolio/thumbnails/');
-            const imagesResult = await processBulkUpload(images, 'iamhrayr-portfolio/works/');
+        addWork: async (parent: any, { input }: any, { models }: any) => {
+            const { url } = await processSingleUpload(input.thumbnail, 'iamhrayr-portfolio/thumbnails/');
+            const imagesResult = await processBulkUpload(input.images, 'iamhrayr-portfolio/works/');
             const imagesUrls = imagesResult.map((i: any) => i.url);
 
             return new models.Work({
-                title: rest.title,
-                description: rest.description,
-                category: rest.category,
+                title: input.title,
+                description: input.description,
+                category: input.category,
                 thumbnail: url,
-                tags: rest.tags,
+                tags: input.tags,
                 images: imagesUrls,
             }).save();
         },

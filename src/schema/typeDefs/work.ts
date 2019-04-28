@@ -20,18 +20,20 @@ const typeDefs = gql`
     }
 
     extend type Mutation {
-        addWork(
-            title: String!
-            description: String!
-            thumbnail: Upload!
-            tags: [String!]!
-            category: String! # images: [String]!
-        ): Work
+        addWork(input: addWorkInput!): Work
         setWorkVisibility(id: ID!, published: Boolean!): Work
-        # unpublishWork(id: ID!): Work
 
         uploadFile(file: Upload): String
         uploadFiles(files: [Upload]): [String]
+    }
+
+    input addWorkInput {
+        title: String!
+        description: String!
+        thumbnail: Upload!
+        images: [Upload!]!
+        tags: [String!]!
+        category: String!
     }
 `;
 
