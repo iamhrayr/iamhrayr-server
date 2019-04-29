@@ -21,6 +21,7 @@ const typeDefs = gql`
 
     extend type Mutation {
         addWork(input: addWorkInput!): Work
+        deleteWork(id: ID!): Work
         setWorkVisibility(id: ID!, published: Boolean!): Work
 
         uploadFile(file: Upload): String
@@ -34,6 +35,7 @@ const typeDefs = gql`
         images: [Upload!]!
         tags: [String!]!
         category: String!
+        published: Boolean! = false
     }
 `;
 

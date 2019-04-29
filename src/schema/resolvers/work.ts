@@ -7,6 +7,9 @@ export default {
         },
     },
     Query: {
+        work: (parent: any, { id }: any, { models }: any) => {
+            return models.Work.findById(id);
+        },
         works: (parent: any, args: any, { models }: any) => {
             return models.Work.find();
         },
@@ -23,11 +26,16 @@ export default {
                 category: input.category,
                 thumbnail: url,
                 tags: input.tags,
+                published: input.published,
                 images: imagesUrls,
             }).save();
         },
         setWorkVisibility: async (parent: any, { id, published }: any, { models }: any) => {
             return models.Work.findOneAndUpdate({ _id: id }, { published }, { new: true });
+        },
+
+        deleteWork: async (parent: any, { id }: any, { models }: any) => {
+            return models.Work.findByIdAndRemove(id);
         },
 
         // uploadFile: async (parent, { file }, { models }) => {
