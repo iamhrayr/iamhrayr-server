@@ -1,28 +1,33 @@
 import mongoose, { Document } from 'mongoose';
 import { ICategory } from './Category';
 
+interface IImage {
+    url: string;
+    key: string;
+}
+
 export interface IWork extends Document {
     title: string;
     description: string;
-    thumbnail: string;
+    thumbnail: IImage;
     tags: string[];
-    published: boolean,
+    published: boolean;
     category: ICategory;
-    images: string[];
+    images: IImage[];
 }
 
 const WorkSchema = new mongoose.Schema(
     {
         title: String,
         description: String,
-        thumbnail: String,
+        thumbnail: mongoose.Schema.Types.Mixed,
         tags: [String],
         published: Boolean,
         category: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Category',
         },
-        images: [String],
+        images: [mongoose.Schema.Types.Mixed],
     },
     { timestamps: true },
 );

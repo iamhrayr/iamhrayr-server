@@ -5,13 +5,18 @@ const typeDefs = gql`
         id: ID!
         title: String!
         description: String!
-        thumbnail: String!
+        thumbnail: Image!
         tags: [String!]!
         category: Category!
-        images: [String]!
+        images: [Image]!
         published: Boolean!
         createdAt: Date!
         updatedAt: Date!
+    }
+
+    type Image {
+        url: String!
+        key: String!
     }
 
     extend type Query {
@@ -24,9 +29,6 @@ const typeDefs = gql`
         editWork(id: ID!, input: addWorkInput!): Work
         deleteWork(id: ID!): Work
         setWorkVisibility(id: ID!, published: Boolean!): Work
-
-        uploadFile(file: Upload): String
-        uploadFiles(files: [Upload]): [String]
     }
 
     input addWorkInput {

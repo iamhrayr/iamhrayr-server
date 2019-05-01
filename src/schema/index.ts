@@ -3,6 +3,8 @@ import resolvers from './resolvers';
 
 const RootType = `
     scalar Date
+    scalar UploadOrUrlObject
+    scalar Any
 
     type Query {
         _empty: String

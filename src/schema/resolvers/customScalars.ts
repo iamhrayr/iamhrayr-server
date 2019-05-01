@@ -18,4 +18,17 @@ export default {
             return null;
         },
     }),
+    Any: new GraphQLScalarType({
+        name: 'Any',
+        description: 'Literally anything',
+        serialize(value) {
+            return value;
+        },
+        parseValue(value) {
+            return value;
+        },
+        parseLiteral(ast) {
+            return ast.value;
+        },
+    }),
 };

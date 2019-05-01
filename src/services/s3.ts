@@ -54,3 +54,23 @@ export const processBulkUpload = async (uploads: any, path = '') => {
 
     return Promise.all(promises);
 };
+
+export const deleteFiles = async (files: any) => {
+    const objectsToDelete = files.map((f: any) => ({ Key: f.key }));
+    const params = {
+        Bucket: 'iamhrayr-portfolio',
+        Delete: {
+            Objects: objectsToDelete,
+            Quiet: false,
+        },
+    };
+
+    return new Promise((resolve, reject) => {
+        s3.deleteObjects(params, (err, data) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(data);
+        });
+    });
+};
