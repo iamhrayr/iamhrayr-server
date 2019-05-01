@@ -21,6 +21,7 @@ const typeDefs = gql`
 
     extend type Mutation {
         addWork(input: addWorkInput!): Work
+        editWork(id: ID!, input: addWorkInput!): Work
         deleteWork(id: ID!): Work
         setWorkVisibility(id: ID!, published: Boolean!): Work
 
