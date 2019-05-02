@@ -62,8 +62,10 @@ export default {
 
                 // delete images from s3 if removed in client
                 const work = await models.Work.findById(id);
-                const imagesToDelete = _.difference(work.images, alredyUploadedImagesUrls, 'key');
-                await deleteFiles(imagesToDelete);
+                const imagesToDelete = _.differenceBy(work.images, alredyUploadedImagesUrls, 'key');
+                if (imagesToDelete.length > 0) {
+                    deleteFiles(imagesToDelete);
+                }
 
                 return models.Work.findByIdAndUpdate(id, {
                     title: input.title,
@@ -73,7 +75,7 @@ export default {
                     tags: input.tags,
                     published: input.published,
                     images: allImagesUrls,
-                });
+                }, {new: true});
             } catch (err) {
                 throw new ApolloError(err);
             }
@@ -82,6 +84,9 @@ export default {
             return models.Work.findOneAndUpdate({ _id: id }, { published }, { new: true });
         },
         deleteWork: async (parent: any, { id }: any, { models }: any) => {
+            // delete images & thumbnail from s3
+            const work = await models.Work.findById(id);
+            deleteFiles([work.thumbnail, ...work.images]);
             return models.Work.findByIdAndRemove(id);
         },
     },
