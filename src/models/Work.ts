@@ -1,4 +1,6 @@
 import mongoose, { Document } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
+
 import { ICategory } from './Category';
 
 interface IImage {
@@ -31,6 +33,8 @@ const WorkSchema = new mongoose.Schema(
     },
     { timestamps: true },
 );
+
+WorkSchema.plugin(mongoosePaginate);
 
 const Work = mongoose.model<IWork>('Work', WorkSchema);
 

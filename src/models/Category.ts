@@ -1,4 +1,5 @@
 import mongoose, { Document } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
 
 export interface ICategory extends Document {
     name: string;
@@ -10,6 +11,8 @@ const CategorySchema = new mongoose.Schema(
     },
     { timestamps: true },
 );
+
+CategorySchema.plugin(mongoosePaginate);
 
 const Category = mongoose.model<ICategory>('Category', CategorySchema);
 

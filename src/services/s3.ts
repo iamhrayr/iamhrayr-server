@@ -6,7 +6,7 @@ aws.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     region: process.env.AWS_REGION,
 });
-const s3 = new aws.S3();
+export const s3 = new aws.S3();
 
 export const processSingleUpload = async (upload: any, path = '') => {
     const { createReadStream, filename } = await upload;

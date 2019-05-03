@@ -1,25 +1,11 @@
 import express from 'express';
-import { check, validationResult } from 'express-validator/check';
-
-import models from '../models';
+import controller from '../controllers/category';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    models.Category.find();
-});
-
-router.post('/', [
-    check('name').not().isEmpty(),
-], (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.mapped() });
-    }
-
-    return new models.Category({
-        name: req.name,
-    }).save();
-});
+router.get('/', controller.getCategories);
+router.post('/', controller.addCategory);
+router.patch('/:id', controller.editCategory);
+router.delete('/:id', controller.deleteCategory);
 
 export default router;

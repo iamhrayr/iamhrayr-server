@@ -1,4 +1,5 @@
 import mongoose, { Document } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
 
 export interface ISkill extends Document {
     id: string;
@@ -15,6 +16,8 @@ const SkillSchema = new mongoose.Schema(
     },
     { timestamps: true },
 );
+
+SkillSchema.plugin(mongoosePaginate);
 
 const Skill = mongoose.model<ISkill>('Skill', SkillSchema);
 
