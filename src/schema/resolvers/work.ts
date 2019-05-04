@@ -67,15 +67,19 @@ export default {
                     deleteFiles(imagesToDelete);
                 }
 
-                return models.Work.findByIdAndUpdate(id, {
-                    title: input.title,
-                    description: input.description,
-                    category: input.category,
-                    thumbnail: thumbnailData,
-                    tags: input.tags,
-                    published: input.published,
-                    images: allImagesUrls,
-                }, {new: true});
+                return models.Work.findByIdAndUpdate(
+                    id,
+                    {
+                        title: input.title,
+                        description: input.description,
+                        category: input.category,
+                        thumbnail: thumbnailData,
+                        tags: input.tags,
+                        published: input.published,
+                        images: allImagesUrls,
+                    },
+                    { new: true },
+                );
             } catch (err) {
                 throw new ApolloError(err);
             }

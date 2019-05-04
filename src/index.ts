@@ -9,6 +9,7 @@ import { DocumentNode } from 'graphql';
 import initializeRoutes from './routes';
 import schema from './schema';
 import './configs/mongoDB';
+import models from './models';
 
 const server = new ApolloServer({
     typeDefs: schema.typeDefs as DocumentNode[],

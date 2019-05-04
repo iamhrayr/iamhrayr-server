@@ -20,16 +20,32 @@ export interface IWork extends Document {
 
 const WorkSchema = new mongoose.Schema(
     {
-        title: String,
+        title: {
+            type: String,
+            required: [true, 'Title is required'],
+        },
         description: String,
-        thumbnail: mongoose.Schema.Types.Mixed,
-        tags: [String],
-        published: Boolean,
+        thumbnail: {
+            type: mongoose.Schema.Types.Mixed,
+            required: true,
+        },
+        tags: {
+            type: [String],
+            required: true,
+        },
+        published: {
+            type: Boolean,
+            required: true,
+        },
         category: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Category',
+            required: true,
         },
-        images: [mongoose.Schema.Types.Mixed],
+        images: {
+            type: [mongoose.Schema.Types.Mixed],
+            required: true,
+        },
     },
     { timestamps: true },
 );

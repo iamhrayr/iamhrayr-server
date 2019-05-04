@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
-import aws from 'aws-sdk';
 import uuidv4 from 'uuid/v4';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 
 import models from '../models';
-import { s3 } from '../services/s3';
+import { s3, deleteFiles } from '../services/s3';
 
 const upload = multer({
     storage: multerS3({
@@ -36,15 +35,36 @@ export default {
     addWorkImages: upload.fields([{ name: 'thumbnails', maxCount: 1 }, { name: 'images' }]),
     addWork: async (req: Request, res: Response) => {
         try {
-            res.send('success');
+            const { files }: any = req;
+            if (!files.thumbnails || !files.images) {
+                return res.status(400).send({});
+            }
 
-            // const skill = await new models.Skill({
-            //     title: req.body.title,
-            //     description: req.body.description,
-            //     color: req.body.color,
-            // }).save();
+            const thumbnail = {
+                url: files.thumbnails.location,
+                key: files.thumbnails.key,
+            };
 
-            // return res.send(skill);
+            const images = files.images.map((i: any) => ({
+                url: i.location,
+                key: i.key,
+            }));
+
+            const work = await new models.Work({
+                thumbnail,
+                images,
+                title: req.body.title,
+                description: req.body.description,
+                category: req.body.category,
+                tags: req.body.tags,
+                published: req.body.published,
+            });
+
+            if (work.errors) {
+                deleteFiles([thumbnail, ...images]);
+            }
+
+            return res.send(work);
         } catch (err) {
             return res.status(400).send(err);
         }
