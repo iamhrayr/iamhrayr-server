@@ -2,6 +2,7 @@ require('dotenv').config();
 
 import 'module-alias/register';
 import express from 'express';
+import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 import bodyParser from 'body-parser';
 import { DocumentNode } from 'graphql';
@@ -21,9 +22,9 @@ const server = new ApolloServer({
 });
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 initializeRoutes(app);
 
 server.applyMiddleware({ app });

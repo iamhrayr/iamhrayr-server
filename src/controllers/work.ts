@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import uuidv4 from 'uuid/v4';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
+import _ from 'lodash';
 
 import models from '../models';
 import { s3, deleteFiles } from '../services/s3';
@@ -12,7 +13,8 @@ const upload = multer({
         bucket: 'iamhrayr-portfolio',
         acl: 'public-read',
         key(req, file, cb) {
-            const key = `work/${file.fieldname}/${uuidv4()}-${file.originalname}`;
+            const folder = file.fieldname === 'thumbnail' ? 'thumbnails' : file.fieldname;
+            const key = `work/${folder}/${uuidv4()}-${file.originalname}`;
             cb(null, key);
         },
     }),
@@ -24,7 +26,8 @@ export default {
             const page = parseInt(req.query.page, 10) || 1;
             const limit = parseInt(req.query.limit, 10) || 10;
 
-            const works = await models.Work.paginate({}, { page, limit });
+            const opt = { page, limit, populate: 'category' };
+            const works = await models.Work.paginate({}, opt);
 
             return res.send(works);
         } catch (err) {
@@ -32,17 +35,30 @@ export default {
         }
     },
 
-    addWorkImages: upload.fields([{ name: 'thumbnails', maxCount: 1 }, { name: 'images' }]),
+    getWork: async (req: Request, res: Response) => {
+        try {
+            const work = await models.Work.findById(req.params.id).populate('category');
+            if (!work) {
+                return res.status(404).send({ message: `work with provided id does not exist` });
+            }
+
+            return res.send(work);
+        } catch (err) {
+            return res.status(400).send(err);
+        }
+    },
+
+    addWorkImages: upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'images' }]),
     addWork: async (req: Request, res: Response) => {
         try {
             const { files }: any = req;
-            if (!files.thumbnails || !files.images) {
-                return res.status(400).send({});
+            if (!files.thumbnail || !files.images) {
+                return res.status(400).send({ error: true, message: 'images are required' });
             }
 
             const thumbnail = {
-                url: files.thumbnails.location,
-                key: files.thumbnails.key,
+                url: files.thumbnail[0].location,
+                key: files.thumbnail[0].key,
             };
 
             const images = files.images.map((i: any) => ({
@@ -58,7 +74,7 @@ export default {
                 category: req.body.category,
                 tags: req.body.tags,
                 published: req.body.published,
-            });
+            }).save();
 
             if (work.errors) {
                 deleteFiles([thumbnail, ...images]);
@@ -70,26 +86,54 @@ export default {
         }
     },
 
-    // editWork: async (req: Request, res: Response) => {
-    //     try {
-    //         const { id } = req.params;
+    editWork: async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const { files }: any = req;
 
-    //         const updatedSkill = await models.Skill.findByIdAndUpdate(id, { $set: req.body }, { new: true });
+            const alredyUploadedImages = req.body.images || [];
+            const newImages = files.images ? files.images.map((i: any) => ({ url: i.location, key: i.key })) : [];
+            const allImagesUrls = [...alredyUploadedImages, ...newImages];
 
-    //         return res.send(updatedSkill);
-    //     } catch (err) {
-    //         return res.status(400).send(err);
-    //     }
-    // },
+            // upload thumbnail and store url if it changed
+            let thumbnailData;
+            if (files.thumbnail) {
+                thumbnailData = { url: files.thumbnail.location, key: files.thumbnail.key };
+            } else {
+                thumbnailData = req.body.thumbnail;
+            }
 
-    // deleteWork: async (req: Request, res: Response) => {
-    //     try {
-    //         const { id } = req.params;
-    //         const deletedSkill = await models.Skill.findByIdAndDelete(id);
+            // delete images from s3 if removed in client
+            const work = await models.Work.findById(id);
+            if (work) {
+                const imagesToDelete = _.differenceBy(work.images, alredyUploadedImages, 'key');
+                if (imagesToDelete.length > 0) {
+                    deleteFiles(imagesToDelete);
+                }
+                if (thumbnailData.key !== work.thumbnail.key) {
+                    deleteFiles(work.thumbnail.key);
+                }
+            }
 
-    //         return res.send(deletedSkill);
-    //     } catch (err) {
-    //         return res.status(400).send(err);
-    //     }
-    // },
+            const updatedData = await models.Work.findByIdAndUpdate(
+                id,
+                { ...req.body, thumbnail: thumbnailData, images: allImagesUrls },
+                { new: true },
+            );
+
+            return res.send(updatedData);
+        } catch (err) {
+            return res.status(400).send(err);
+        }
+    },
+
+    deleteWork: async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const deletedWork = await models.Work.findByIdAndDelete(id);
+            return res.send(deletedWork);
+        } catch (err) {
+            return res.status(400).send(err);
+        }
+    },
 };
