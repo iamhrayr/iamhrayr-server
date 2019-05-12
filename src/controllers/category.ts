@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import models from '../models';
 
 export default {
-    getCategories: async (req: Request, res: Response) => {
+    getAllCategories: async (req: Request, res: Response) => {
         try {
             const page = parseInt(req.query.page, 10) || 1;
             const limit = parseInt(req.query.limit, 10) || 10;
@@ -15,7 +15,7 @@ export default {
         }
     },
 
-    addCategory: async (req: Request, res: Response) => {
+    createCategory: async (req: Request, res: Response) => {
         try {
             const category = await new models.Category({
                 name: req.body.name,
@@ -27,7 +27,7 @@ export default {
         }
     },
 
-    editCategory: async (req: Request, res: Response) => {
+    updateCategory: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
             const { name } = req.body;

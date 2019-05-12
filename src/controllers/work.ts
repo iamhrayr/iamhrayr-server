@@ -7,7 +7,7 @@ import _ from 'lodash';
 import models from '../models';
 import { s3, deleteFiles } from '../services/s3';
 
-const upload = multer({
+export const upload = multer({
     storage: multerS3({
         s3,
         bucket: 'iamhrayr-portfolio',
@@ -21,7 +21,7 @@ const upload = multer({
 });
 
 export default {
-    getWorks: async (req: Request, res: Response) => {
+    getAllWork: async (req: Request, res: Response) => {
         try {
             const page = parseInt(req.query.page, 10) || 1;
             const limit = parseInt(req.query.limit, 10) || 10;
@@ -35,7 +35,7 @@ export default {
         }
     },
 
-    getWork: async (req: Request, res: Response) => {
+    getOneWork: async (req: Request, res: Response) => {
         try {
             const work = await models.Work.findById(req.params.id).populate('category');
             if (!work) {
@@ -48,8 +48,7 @@ export default {
         }
     },
 
-    addWorkImages: upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'images' }]),
-    addWork: async (req: Request, res: Response) => {
+    createWork: async (req: Request, res: Response) => {
         try {
             const { files }: any = req;
             if (!files.thumbnail || !files.images) {
@@ -86,7 +85,7 @@ export default {
         }
     },
 
-    editWork: async (req: Request, res: Response) => {
+    updateWork: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
             const { files }: any = req;

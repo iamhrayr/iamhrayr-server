@@ -3,9 +3,9 @@ import controller from '../controllers/category';
 
 const router = express.Router();
 
-router.get('/', controller.getCategories);
-router.post('/', controller.addCategory);
-router.patch('/:id', controller.editCategory);
+router.get('/', controller.getAllCategories);
+router.post('/', controller.createCategory);
+router.patch('/:id', controller.updateCategory);
 router.delete('/:id', controller.deleteCategory);
 
 export default router;

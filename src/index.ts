@@ -6,11 +6,13 @@ import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 import bodyParser from 'body-parser';
 import { DocumentNode } from 'graphql';
+import swaggerUi from 'swagger-ui-express';
 
 import initializeRoutes from './routes';
 import schema from './schema';
 import './configs/mongoDB';
 import models from './models';
+import swaggerDocument from '../swagger.json';
 
 const server = new ApolloServer({
     typeDefs: schema.typeDefs as DocumentNode[],
@@ -22,6 +24,7 @@ const server = new ApolloServer({
 });
 
 const app = express();
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

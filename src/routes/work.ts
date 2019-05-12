@@ -1,12 +1,13 @@
 import express from 'express';
-import controller from '../controllers/work';
+import controller, { upload } from '../controllers/work';
 
 const router = express.Router();
+const uploadMiddleware = upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'images' }]);
 
-router.get('/', controller.getWorks);
-router.get('/:id', controller.getWork);
-router.post('/', controller.addWorkImages, controller.addWork);
-router.patch('/:id', controller.addWorkImages, controller.editWork);
+router.get('/', controller.getAllWork);
+router.get('/:id', controller.getOneWork);
+router.post('/', uploadMiddleware, controller.createWork);
+router.patch('/:id', uploadMiddleware, controller.updateWork);
 router.delete('/:id', controller.deleteWork);
 
 export default router;

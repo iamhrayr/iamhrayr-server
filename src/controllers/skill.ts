@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import models from '../models';
 
 export default {
-    getSkills: async (req: Request, res: Response) => {
+    getAllSkill: async (req: Request, res: Response) => {
         try {
             const page = parseInt(req.query.page, 10) || 1;
             const limit = parseInt(req.query.limit, 10) || 10;
@@ -15,7 +15,7 @@ export default {
         }
     },
 
-    addSkill: async (req: Request, res: Response) => {
+    createSkill: async (req: Request, res: Response) => {
         try {
             const skill = await new models.Skill({
                 name: req.body.name,
@@ -29,7 +29,7 @@ export default {
         }
     },
 
-    editSkill: async (req: Request, res: Response) => {
+    updateSkill: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
 

@@ -3,9 +3,9 @@ import controller from '../controllers/skill';
 
 const router = express.Router();
 
-router.get('/', controller.getSkills);
-router.post('/', controller.addSkill);
-router.patch('/:id', controller.editSkill);
+router.get('/', controller.getAllSkill);
+router.post('/', controller.createSkill);
+router.patch('/:id', controller.updateSkill);
 router.delete('/:id', controller.deleteSkill);
 
 export default router;
