@@ -24,7 +24,7 @@
         "@types/shortid": "0.0.29",
         "@types/swagger-ui-express": "^3.0.0",
         "@types/uuid": "^3.4.4",
-        "apollo-server": "^2.4.8",
+        "apollo-server": "^2.14.2",
         "apollo-server-express": "^2.4.8",
         "aws-sdk": "^2.446.0",
         "body-parser": "^1.19.0",
